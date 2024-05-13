@@ -1,0 +1,11 @@
+services:
+
+  async-crawler:
+    image: async-crawler:latest
+    container_name: async-crawler
+    hostname: "async-crawler"
+    build:
+        dockerfile: Dockerfile
+        target: production
+        context: .
+

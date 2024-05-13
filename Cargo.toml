@@ -3,4 +3,7 @@ name = "async-crawler"
 version = "0.1.0"
 edition = "2021"
 
+[workspace]
+
 [dependencies]
+tokio = { version = "1.37.0", features = ["full"] }

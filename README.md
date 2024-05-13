@@ -5,6 +5,7 @@ TLTR: How to run
 ----------------
 
     make build
+    make ckeck
     make test
     make run
     make clean
@@ -12,6 +13,7 @@ TLTR: How to run
     make docker-build
     make docker-test
     make docker-run
+    make docker-down
     make docker-clean
 
     make dist-clean
@@ -48,10 +50,10 @@ TBD
 
 Progress
 --------
-[ ] GH Repository  
-[ ] README & Makefile  
-[ ] TO choose online API service to integrate with  
-[ ] Docker & Compose infrastructure  
+[+] GH Repository  
+[+] README & Makefile  
+[+] TO choose online API service to integrate with  
+[+] Docker & Compose infrastructure  
 [ ] Crawler base code (inc. D/I, Logger, CLI, Config, HTTP client, Periodic tasks, Database, Redis)  
 [ ] Crawler scrapping module   
 [ ] Crawler processing module   
@@ -62,3 +64,5 @@ Progress
 External deps & Links
 ---------------------
 
+https://github.com/public-apis/public-apis  
+https://cat-fact.herokuapp.com/facts/random  

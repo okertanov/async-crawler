@@ -38,16 +38,22 @@ impl Scraper for HttpScraper {
 
 impl HttpScraper {
     async fn rest_api_http_get_impl(&self, url: String) -> Box<String> {
-        let response = reqwest::get(url).await.unwrap().text().await;
-
-        match response {
-            Ok(text) => {
-                return Box::new(text.to_string());
-            }
+        let response = match reqwest::get(url).await {
+            Ok(response) => response,
             Err(error) => {
-               log::logger::error(format!("Http Scraper: {error}").as_str());
-               return Box::new("".to_string());
+                log::logger::error(format!("Http Scraper: {error}").as_str());
+                return Box::new("".to_string());
             }
         };
+
+        let text = match response.text().await {
+            Ok(text) => text,
+            Err(error) => {
+                log::logger::error(format!("Http Scraper: {error}").as_str());
+                return Box::new("".to_string());
+            }
+        };
+
+        return Box::new(text.to_string())
     }
 }

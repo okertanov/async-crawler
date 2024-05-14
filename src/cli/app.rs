@@ -66,7 +66,7 @@ impl Runnable for App {
         loop {     
             // 5. Schedule 'scrap' current iteration & pipe it for the processor,
             // it should be performed non-blocking/asyncronously via Tokyo tasks pool
-            http_scraper.run();
+            http_scraper.run().await;
 
             // 6. Sleep/trottle before next iteration
             sleep_trottle_next_with_progress(

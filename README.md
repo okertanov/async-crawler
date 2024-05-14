@@ -65,4 +65,5 @@ External deps & Links
 ---------------------
 
 https://github.com/public-apis/public-apis  
+https://uselessfacts.jsph.pl/
 https://cat-fact.herokuapp.com/facts/random  

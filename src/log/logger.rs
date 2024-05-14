@@ -7,7 +7,7 @@ pub fn debug(msg: &str) {
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
         .as_millis();
-    println!("{now_msec}: {msg}");
+    println!("🏁 {now_msec}: {msg}");
 }
 
 #[allow(dead_code)]
@@ -16,7 +16,16 @@ pub fn info(msg: &str) {
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
         .as_millis();
-    println!("{now_msec}: {msg}");
+    println!("✅ {now_msec}: {msg}");
+}
+
+#[allow(dead_code)]
+pub fn warn(msg: &str) {
+    let now_msec = SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .unwrap()
+        .as_millis();
+    println!("🚧 {now_msec}: {msg}");
 }
 
 #[allow(dead_code)]
@@ -25,7 +34,7 @@ pub fn error(msg: &str) {
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
         .as_millis();
-    println!("{now_msec}: {msg}");
+    println!("🚩 {now_msec}: {msg}");
 }
 
 #[allow(dead_code)]

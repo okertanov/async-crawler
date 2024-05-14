@@ -1,4 +1,4 @@
-use crate::domain::processable::Processable;
+use crate::{domain::{processable::Processable, scraper_result::ScraperResult}, log};
 
 pub struct Metrics {
     _update_interval_ms: u64
@@ -13,4 +13,8 @@ impl Metrics {
 }
 
 impl Processable for Metrics {
+    fn process(&self, res: ScraperResult) -> ScraperResult {
+        log::logger::debug("Metrics processing: process");
+        return res;
+    }
 }

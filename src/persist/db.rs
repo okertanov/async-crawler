@@ -1,25 +1,27 @@
 use std::io::{Error, ErrorKind};
+use crate::domain::persistence::{Persistence, PersistRecord, PersistRecordCollection};
 
+#[derive(Clone)]
 pub struct Db {
 }
 
-pub struct Record {
-}
-
-type RecordCollection = Box<[Record]>;
-
-#[allow(dead_code)]
-pub trait Persistence {
-    fn store(&self, record: Record);
-    fn get(&self, offset: u64, limit: u64) -> Result<RecordCollection, std::io::Error>;
+impl Db {
+    pub fn new() -> Self {
+        Self {
+        }
+    }
 }
 
 impl Persistence for Db {
-    fn store(&self, _record: Record) {
+    fn store(&self, _record: PersistRecord) -> Result<PersistRecord, std::io::Error> {
+        Err(Error::new(ErrorKind::Other, "Not implemented"))
     }
 
-    fn get(&self, _offset: u64, _limit: u64) -> Result<RecordCollection, std::io::Error> {
-        Error::new(ErrorKind::Other, "Not implemented");
-        Ok(Box::new([]))
+    fn store_many(&self, _records: PersistRecordCollection) -> Result<PersistRecordCollection, std::io::Error> {
+        Err(Error::new(ErrorKind::Other, "Not implemented"))
+    }
+
+    fn get(&self, _offset: u64, _limit: u64) -> Result<PersistRecordCollection, std::io::Error> {
+        Err(Error::new(ErrorKind::Other, "Not implemented"))
     }
 }

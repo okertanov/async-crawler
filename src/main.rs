@@ -20,5 +20,5 @@ async fn main() {
     let app = cli::app::App::new(config);
 
     // 3. Perform blocking application run
-    app.run();
+    app.run().await;
 }

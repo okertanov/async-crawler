@@ -1,27 +1,34 @@
 
 use std::sync::Arc;
-use crate::domain::{processable::Processable, scraper_result::ScraperResult};
+use crate::{domain::{processable::Processable, scraper_result::ScraperResult}, log};
 
 pub struct HttpScraper {
-    _url: String,
-    _processables: Vec<Arc<dyn Processable>>
+    url: String,
+    processables: Vec<Arc<dyn Processable>>
 }
 
 impl HttpScraper {
     pub fn new(url: String, processables: Vec<Arc<dyn Processable>>) -> Self {
         Self {
-            _url: url,
-            _processables: processables
+            url,
+            processables
         }
     }
 }
 
 pub trait Scraper {
-    fn get(&self) -> ScraperResult;
+    fn run(&self);
 }
 
 impl Scraper for HttpScraper {
-    fn get(&self) -> ScraperResult {
-        return ScraperResult::new();
+    fn run(&self) {
+        let url = self.url.clone();
+        log::logger::info(format!("Http Scraper: running for {url}").as_str());
+
+        let result = ScraperResult::new();
+
+        for processable in self.processables.iter() {
+            processable.process(result);
+        }
     }
 }

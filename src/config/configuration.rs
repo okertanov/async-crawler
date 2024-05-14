@@ -14,7 +14,7 @@ impl Configuration {
         Self {
             scraper_api_url: "https://cat-fact.herokuapp.com/facts/random".to_string(), // Random cat facts
             scraper_sleep_interval_ms: 1_000,  // 1 sec
-            cron_periodic_interval_ms: 1_000,  // 1 sec
+            cron_periodic_interval_ms: 5_000,  // 5 sec
             metrics_update_interval_ms: 10_000 // 10 sec
         }
     }

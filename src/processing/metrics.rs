@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use crate::{domain::{processable::Processable, scraper_result::ScraperResult}, log};
 
 pub struct Metrics {
@@ -13,7 +14,7 @@ impl Metrics {
 }
 
 impl Processable for Metrics {
-    fn process(&self, res: ScraperResult) -> ScraperResult {
+    fn process(&self, res: Arc<ScraperResult>) -> Arc<ScraperResult> {
         log::logger::debug("Metrics processing: process");
         return res;
     }

@@ -15,7 +15,7 @@ impl Core {
 }
 
 impl Processable for Core {
-    fn process(&self, res: ScraperResult) -> ScraperResult {
+    fn process(&self, res: Arc<ScraperResult>) -> Arc<ScraperResult> {
         log::logger::debug("Core processing: process");
 
         let record = PersistRecord::new();

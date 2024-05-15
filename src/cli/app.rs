@@ -1,3 +1,4 @@
+use tokio::sync::Mutex;
 use crate::scraper::http::Scraper;
 use crate::{cache, config, log, persist, processing, scraper};
 use crate::periodic::cron::Schedulable;
@@ -40,17 +41,25 @@ impl Runnable for App {
         let inmem_cache = Arc::new(cache::inmem::InMem::new());
         let persist_db = Arc::new(persist::db::Db::new());
         let store_processor = Arc::new(processing::store::Store::new(inmem_cache.clone(), persist_db));
-        let core_processor = Arc::new(processing::core::Core::new(inmem_cache));
-        let metrics_processor = Arc::new(processing::metrics::Metrics::new(
-            self.config.get_metrics_update_interval_ms()
-        ));
-        let http_scraper = scraper::http::HttpScraper::new(
+        let core_processor = Arc::new(
+            Mutex::new(
+                processing::core::Core::new(inmem_cache)
+            )
+        );
+        let metrics_processor = Arc::new(
+            Mutex::new(
+                processing::metrics::Metrics::new(
+                    self.config.get_metrics_update_interval_ms()
+                )
+            )
+        );
+        let http_scraper = Arc::new(scraper::http::HttpScraper::new(
             self.config.get_scraper_api_url(),
             vec![
                 core_processor,
                 metrics_processor,
             ]
-        );
+        ));
 
         // 3. Schedule periodic cron for the timed persistence
         let persistence_cron = Arc::new(crate::periodic::cron::Cron::new(
@@ -66,7 +75,8 @@ impl Runnable for App {
         loop {     
             // 5. Schedule 'scrap' current iteration & pipe it for the processor,
             // it should be performed non-blocking/asyncronously via Tokyo tasks pool
-            http_scraper.run().await;
+            let http_scraper_clone = http_scraper.clone();
+            http_scraper_clone.run().await;
 
             // 6. Sleep/trottle before next iteration
             sleep_trottle_next_with_progress(

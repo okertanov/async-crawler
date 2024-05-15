@@ -1,7 +1,9 @@
 use std::sync::Arc;
+use tokio::sync::Mutex;
+use async_trait::async_trait;
 use super::scraper_result::ScraperResult;
 
-#[allow(dead_code)]
+#[async_trait]
 pub trait Processable {
-    fn process(&self, res: Arc<ScraperResult>) -> Arc<ScraperResult>;
+    async fn process(&mut self, res: Arc<Mutex<ScraperResult>>) -> Arc<Mutex<ScraperResult>>;
 }

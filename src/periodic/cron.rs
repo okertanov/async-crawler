@@ -37,7 +37,7 @@ impl Schedulable for Cron {
         );
 
         while let Some(_ts) = stream.next().await {
-            log::logger::debug("Cron: activated.");
+            // log::logger::debug("Cron: activated.");
 
             if !self.started.load(Ordering::Relaxed) {
                 break;

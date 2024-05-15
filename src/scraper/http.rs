@@ -1,14 +1,16 @@
 
 use std::sync::Arc;
+use tokio::sync::Mutex;
+
 use crate::{domain::{processable::Processable, rest_fact_dto::RestFactDto, scraper_result::ScraperResult}, log};
 
 pub struct HttpScraper {
     url: String,
-    processables: Vec<Arc<dyn Processable>>
+    processables: Vec<Arc<Mutex<dyn Processable>>>
 }
 
 impl HttpScraper {
-    pub fn new(url: String, processables: Vec<Arc<dyn Processable>>) -> Self {
+    pub fn new(url: String, processables: Vec<Arc<Mutex<dyn Processable>>>) -> Self {
         Self {
             url,
             processables
@@ -22,12 +24,13 @@ pub trait Scraper {
 
 impl Scraper for HttpScraper {
     async fn run(&self) {
-        let url = self.url.clone();
-        log::logger::info(format!("Http Scraper: running for {url}").as_str());
+        // let url = self.url.clone();
+        // log::logger::info(format!("Http Scraper: running for {url}").as_str());
 
         // Call actual REST endpoint to get the results
+        let timestamp_started = chrono::Utc::now().timestamp_millis();
         let response_txt = self.rest_api_http_get_impl(self.url.clone()).await;
-        log::logger::info(format!("Http Scraper: result: {response_txt:?}").as_str());
+        // log::logger::info(format!("Http Scraper: result: {response_txt:?}").as_str());
 
         // Not interested if empty response or error, just being logged,
         // and http errors are being logged at the Impl level.
@@ -45,15 +48,22 @@ impl Scraper for HttpScraper {
             }
         };
 
+        let timestamp_fetched = chrono::Utc::now().timestamp_millis();
         let result = Arc::new(
-            ScraperResult::new(rest_fact_dto)
-        );
+            Mutex::new(
+                ScraperResult::new(
+                    rest_fact_dto,
+                    response_txt.len(),
+                    timestamp_started,
+                    timestamp_fetched
+        )));
 
         // println!("🐞 {:?}", result);
 
         // Run all processibles over the result
         for processable in self.processables.iter() {
-            processable.process(result.clone());
+            let mut processable_locked = processable.lock().await;
+            processable_locked.process(result.clone()).await;
         }
     }
 }

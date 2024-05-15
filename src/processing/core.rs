@@ -1,5 +1,7 @@
 use std::sync::Arc;
-use crate::{cache, domain::{persistence::PersistRecord, processable::Processable, scraper_result::ScraperResult}, log};
+use tokio::sync::Mutex;
+use async_trait::async_trait;
+use crate::{cache, domain::{persistence::PersistRecord, processable::Processable, scraper_result::ScraperResult}};
 use crate::domain::persistence::Persistence;
 
 pub struct Core {
@@ -13,11 +15,9 @@ impl Core {
         }
     }
 }
-
+#[async_trait]
 impl Processable for Core {
-    fn process(&self, res: Arc<ScraperResult>) -> Arc<ScraperResult> {
-        log::logger::debug("Core processing: process");
-
+    async fn process(&mut self, res: Arc<Mutex<ScraperResult>>) -> Arc<Mutex<ScraperResult>> {
         let record = PersistRecord::new();
         let _result = self.cache.store(record);
         return res;

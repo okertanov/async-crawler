@@ -56,13 +56,13 @@ Progress
 [+] TO choose online API service to integrate with  
 [+] Docker & Compose infrastructure  
 [+] Crawler base code:
-    [+] D/I
-    [+] Logger
-    [+] CLI
-    [+] Config
-    [+] HTTP client
-    [+] Periodic tasks
-    [-] SQLITE Database
+    [+] D/I  
+    [+] Logger  
+    [+] CLI  
+    [+] Config  
+    [+] HTTP client  
+    [+] Periodic tasks  
+    [-] SQLITE Database  
     [-] Redis  
 [+] Crawler scrapping module   
 [+] Crawler processing module   

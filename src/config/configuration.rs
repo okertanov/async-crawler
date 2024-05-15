@@ -12,7 +12,7 @@ pub struct Configuration {
 impl Configuration {
     pub fn new() -> Self {
         Self {
-            scraper_api_url: "https://uselessfacts.jsph.pl/api/v2/facts/random".to_string(), // Random cat facts
+            scraper_api_url: "https://uselessfacts.jsph.pl/api/v2/facts/random".to_string(),
             scraper_sleep_interval_ms: 1,  // 1 msec
             cron_periodic_interval_ms: 5_000,  // 5 sec
             metrics_update_interval_ms: 10_000 // 10 sec

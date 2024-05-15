@@ -13,6 +13,7 @@ TLTR: How to run
     make docker-build
     make docker-test
     make docker-run
+    make docker-logs
     make docker-down
     make docker-clean
 

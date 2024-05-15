@@ -15,11 +15,15 @@ impl Core {
         }
     }
 }
+
 #[async_trait]
 impl Processable for Core {
     async fn process(&mut self, res: Arc<Mutex<ScraperResult>>) -> Arc<Mutex<ScraperResult>> {
         let record = PersistRecord::new();
         let _result = self.cache.store(record);
         return res;
+    }
+
+    async fn run(&self) {
     }
 }

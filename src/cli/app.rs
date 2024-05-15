@@ -40,7 +40,11 @@ impl Runnable for App {
         // TODO: to use D/I here
         let inmem_cache = Arc::new(cache::inmem::InMem::new());
         let persist_db = Arc::new(persist::db::Db::new());
-        let store_processor = Arc::new(processing::store::Store::new(inmem_cache.clone(), persist_db));
+        let store_processor = Arc::new(
+            Mutex::new(
+                processing::store::Store::new(inmem_cache.clone(), persist_db)
+            )
+        );
         let core_processor = Arc::new(
             Mutex::new(
                 processing::core::Core::new(inmem_cache)
@@ -62,10 +66,12 @@ impl Runnable for App {
         ));
 
         // 3. Schedule periodic cron for the timed persistence
-        let persistence_cron = Arc::new(crate::periodic::cron::Cron::new(
-            self.config.get_cron_periodic_interval_ms(),
-            store_processor
-        ));
+        let persistence_cron = Arc::new(
+            crate::periodic::cron::Cron::new(
+                self.config.get_cron_periodic_interval_ms(),
+                store_processor
+            )
+        );
         let persistence_cron_clone = persistence_cron.clone();
         tokio::spawn(async move {
             persistence_cron_clone.schedule().await;

@@ -58,6 +58,7 @@ impl Scraper for HttpScraper {
         for processable in self.processables.iter() {
             let mut processable_locked = processable.lock().await;
             processable_locked.process(result.clone()).await;
+            std::mem::drop(processable_locked);
         }
     }
 }

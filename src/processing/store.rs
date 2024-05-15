@@ -1,4 +1,8 @@
 use std::sync::Arc;
+use async_trait::async_trait;
+use tokio::sync::Mutex;
+use crate::domain::processable::Processable;
+use crate::domain::scraper_result::ScraperResult;
 use crate::{cache, log, persist};
 use crate::domain::persistence::Persistence;
 
@@ -18,8 +22,15 @@ impl Store {
             db
         }
     }
+}
 
-    pub fn run(&self) {
+#[async_trait]
+impl Processable for Store {
+    async fn process(&mut self, res: Arc<Mutex<ScraperResult>>) -> Arc<Mutex<ScraperResult>> {
+        return res;
+    }
+    
+    async fn run(&self) {
         let cached = self.cache.get(0, u64::MAX);
         match cached {
             Ok(record) => {

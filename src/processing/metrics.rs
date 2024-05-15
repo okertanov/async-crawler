@@ -37,4 +37,7 @@ impl Processable for Metrics {
 
         return res;
     }
+
+    async fn run(&self) {
+    }
 }

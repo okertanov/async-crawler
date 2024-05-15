@@ -1,22 +1,21 @@
 use std::sync::{atomic::{AtomicBool, Ordering}, Arc};
 use std::time::Duration;
-use tokio::time;
+use tokio::{sync::Mutex, time};
 use tokio_stream::{wrappers::IntervalStream, StreamExt};
-use crate::{log, processing};
+use crate::{domain::processable::Processable, log};
 
 #[derive(Clone)]
 pub struct Cron {
     period_ms: u64,
-    // TODO: To use Processible Trait here
-    store: Arc<processing::store::Store>,
+    processable: Arc<Mutex<dyn Processable + Send>>,
     started: Arc<AtomicBool>
 }
 
 impl Cron {
-    pub fn new(period_ms: u64, store: Arc<processing::store::Store>) -> Self {
+    pub fn new(period_ms: u64, processable: Arc<Mutex<dyn Processable + Send>>) -> Self {
         Self {
             period_ms,
-            store,
+            processable,
             started: Arc::new(AtomicBool::new(false))
         }
     }
@@ -42,7 +41,9 @@ impl Schedulable for Cron {
             }
 
             // Do actual work
-            self.store.run();
+            let processable_locked = self.processable.lock().await;
+            processable_locked.run().await;
+            std::mem::drop(processable_locked);
         }
 
         log::logger::debug("Cron: terminated.");

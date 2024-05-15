@@ -55,22 +55,23 @@ Progress
 [+] README & Makefile  
 [+] TO choose online API service to integrate with  
 [+] Docker & Compose infrastructure  
-[+] Crawler base code:
-    [+] D/I  
-    [+] Logger  
-    [+] CLI  
-    [+] Config  
-    [+] HTTP client  
-    [+] Periodic tasks  
-    [-] SQLITE Database  
-    [-] Redis  
 [+] Crawler scrapping module   
 [+] Crawler processing module   
 [-] Crawler metrics calculation & realtime output  
 [+] Crawler DB layer  
-[+] Crawler tests:
-    [+] ut
-    [-] integration  
+[+] Crawler base code:  
+>    [+] D/I  
+>    [+] Logger  
+>    [+] CLI  
+>    [+] Config  
+>    [+] HTTP client  
+>    [+] Periodic tasks  
+>    [-] SQLITE Database  
+>    [-] Redis  
+
+[+] Crawler tests:  
+>    [+] ut  
+>    [-] integration    
 
 External deps & Links
 ---------------------

@@ -24,13 +24,9 @@ pub trait Scraper {
 
 impl Scraper for HttpScraper {
     async fn run(&self) {
-        // let url = self.url.clone();
-        // log::logger::info(format!("Http Scraper: running for {url}").as_str());
-
         // Call actual REST endpoint to get the results
         let timestamp_started = chrono::Utc::now().timestamp_millis();
         let response_txt = self.rest_api_http_get_impl(self.url.clone()).await;
-        // log::logger::info(format!("Http Scraper: result: {response_txt:?}").as_str());
 
         // Not interested if empty response or error, just being logged,
         // and http errors are being logged at the Impl level.
@@ -57,8 +53,6 @@ impl Scraper for HttpScraper {
                     timestamp_started,
                     timestamp_fetched
         )));
-
-        // println!("🐞 {:?}", result);
 
         // Run all processibles over the result
         for processable in self.processables.iter() {

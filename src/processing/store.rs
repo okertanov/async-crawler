@@ -20,8 +20,6 @@ impl Store {
     }
 
     pub fn run(&self) {
-        log::logger::debug("Store processing: run");
-
         let cached = self.cache.get(0, u64::MAX);
         match cached {
             Ok(record) => {

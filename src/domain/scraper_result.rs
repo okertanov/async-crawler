@@ -1,7 +1,7 @@
+use serde::{Serialize, Deserialize};
 use super::rest_fact_dto::RestFactDto;
 
-
-#[derive(Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct ScraperResult {
     pub dto: RestFactDto,
     pub response_len: usize,

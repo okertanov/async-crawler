@@ -1,11 +1,16 @@
-#[derive(Copy, Clone)]
+use serde::{Serialize, Deserialize};
+use super::scraper_result::ScraperResult;
+
+#[derive(Serialize, Deserialize, Clone)]
 pub struct PersistRecord {
+    data: ScraperResult
 }
 
 #[allow(dead_code)]
 impl PersistRecord {
-    pub fn new() -> Self {
+    pub fn new(data: ScraperResult) -> Self {
         Self {
+            data
         }
     }
 }

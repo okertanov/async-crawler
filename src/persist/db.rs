@@ -21,7 +21,7 @@ impl Persistence for Db {
         Err(Error::new(ErrorKind::Other, "Not implemented"))
     }
 
-    fn get(&self, _offset: u64, _limit: u64) -> Result<PersistRecordCollection, std::io::Error> {
+    fn get(&self, _offset: usize, _limit: usize) -> Result<PersistRecordCollection, std::io::Error> {
         Err(Error::new(ErrorKind::Other, "Not implemented"))
     }
 }

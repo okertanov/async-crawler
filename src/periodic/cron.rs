@@ -41,7 +41,7 @@ impl Schedulable for Cron {
             }
 
             // Do actual work
-            let processable_locked = self.processable.lock().await;
+            let processable_locked = self.processable.clone().lock_owned().await;
             processable_locked.run().await;
             std::mem::drop(processable_locked);
         }

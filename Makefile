@@ -7,7 +7,7 @@ check: build
 	cargo check
 
 run: build
-	cargo run
+	RUST_BACKTRACE=1 cargo run
 
 test: build
 	cargo test

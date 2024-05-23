@@ -31,10 +31,13 @@ impl Processable for Store {
     }
     
     async fn run(&self) {
-        let cached = self.cache.get(0, u64::MAX);
+        // The max length of a Redis list is 2^32 - 1 (4,294,967,295),
+        // so 65535 is used here.
+        let cached = self.cache.get(usize::MIN, u16::MAX.into());
         match cached {
-            Ok(record) => {
-                let _stored = self.db.store_many(record);
+            Ok(records) => {
+                log::logger::debug(format!("Found {:?} records", records.len()).as_str());
+                let _stored = self.db.store_many(records);
             },
             Err(error) => {
                 log::logger::error(format!("{error}").as_str());

@@ -4,6 +4,7 @@ pub struct Configuration {
     cron_periodic_interval_ms: u64,
     metrics_update_interval_ms: u64,
     svc_redis_endpoint: String,
+    svc_db_endpoint: String,
 }
 
 //
@@ -18,6 +19,7 @@ impl Configuration {
             cron_periodic_interval_ms: 5_000,   // 5 sec
             metrics_update_interval_ms: 10_000, // 10 sec
             svc_redis_endpoint: "redis://cache/".to_string(),
+            svc_db_endpoint: "database.sqlite3t".to_string(),
         }
     }
 
@@ -39,5 +41,9 @@ impl Configuration {
 
     pub fn get_svc_redis_endpoint(&self) -> String {
         self.svc_redis_endpoint.clone()
+    }
+
+    pub fn get_svc_db_endpoint(&self) -> String {
+        self.svc_db_endpoint.clone()
     }
 }

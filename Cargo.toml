@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 async-trait = "0.1.80"
 chrono = "0.4.38"
+diesel = { version = "2.1.6", features = ["sqlite", "uuid", "chrono", "serde_json", "numeric"] }
+dotenvy = "0.15.7"
 redis = "0.25.3"
 reqwest = "0.12.4"
 serde = { version = "1.0.201", features = ["derive"] } 

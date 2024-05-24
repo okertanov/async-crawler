@@ -39,9 +39,11 @@ impl Runnable for App {
         //   - DB Store processor 
         // TODO: to use D/I here
         let inmem_cache = Arc::new(cache::inmem::InMem::new(
-            self.config.get_svc_redis_endpoint(),
+            self.config.get_svc_redis_endpoint()
         ));
-        let persist_db = Arc::new(persist::db::Db::new());
+        let persist_db = Arc::new(persist::db::Db::new(
+            self.config.get_svc_db_endpoint()
+        ));
         let store_processor = Arc::new(
             Mutex::new(
                 processing::store::Store::new(inmem_cache.clone(), persist_db)
